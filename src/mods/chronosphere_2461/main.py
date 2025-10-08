@@ -122,6 +122,13 @@ def copy_zonemap_node(mgr: ManifestMerger):
         "ui/zonemaps/zone_map_act15mini_zone1",
     )
 
+    # ----------
+
+    mgr.copy_merger_tree_node(
+        "activity/[uc]act24side/zonemap/zone_map_act24side_zone1",
+        "ui/zonemaps/zone_map_act24side_zone1",
+    )
+
 
 def main():
     mgr = ManifestMerger(
@@ -146,6 +153,10 @@ def main():
             Resource("2.0.81", "23-09-20-13-28-42-486799"),
             Resource("2.0.61", "23-08-25-11-36-41-12f55f"),
             Resource("2.0.40", "23-07-24-13-21-30-90fb63"),
+            # ----------
+            # too legacy, and therefore selective
+            # act24side
+            Resource("1.9.81", "23-03-27-11-50-38-b42880"),
         ],
     )
 
