@@ -1,4 +1,5 @@
 from functools import wraps
+from packaging.version import Version
 
 import flatbuffers
 
@@ -204,6 +205,9 @@ def migrate_level(
     res_version: str,
     level_str: str,
 ) -> str:
+    if Version(src_client_version) < Version("2.0.40"):
+        return level_str
+
     migrate_level_decorator_lst = get_migrate_level_decorator_lst(
         level_id, src_client_version, dst_client_version, res_version
     )
