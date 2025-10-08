@@ -156,6 +156,14 @@ def recursive_handle_clz_Torappu_EnemyDatabase_AttributesDataT(
                 prts___levels.clz_Torappu_Undefinable_1_System_Single_T()
             )
 
+        if hasattr(obj, "epDamageResistance") and obj.epDamageResistance is None:
+            obj.epDamageResistance = (
+                prts___levels.clz_Torappu_Undefinable_1_System_Single_T()
+            )
+
+        if hasattr(obj, "epResistance") and obj.epResistance is None:
+            obj.epResistance = prts___levels.clz_Torappu_Undefinable_1_System_Single_T()
+
         return
 
     if isinstance(obj, list):
