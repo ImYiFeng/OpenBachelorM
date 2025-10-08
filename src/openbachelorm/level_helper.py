@@ -1,7 +1,9 @@
 from functools import wraps
 from packaging.version import Version
+import json
 
 import flatbuffers
+import bson
 
 from .fbs_codegen.v2_6_41 import (
     prts___levels_generated as prts___levels_v2_6_41,
@@ -36,6 +38,11 @@ from .helper import (
     nop_mod_table_func,
     get_mod_level_decorator_lst,
     apply_decorator_lst,
+    script_to_bytes,
+    bytes_to_script,
+    remove_header,
+    add_header,
+    dump_table,
 )
 
 
@@ -205,6 +212,22 @@ def migrate_legacy_json_level(
     dst_client_version: str,
     res_version: str,
 ) -> str:
+    level = bson.decode(remove_header(script_to_bytes(level_str)))
+
+    dump_table(level, f"{level_id}_{res_version}_migrate_json_pre.json")
+
+    dump_table(level, f"{level_id}_{res_version}_migrate_json_post.json")
+
+    level_str = bytes_to_script(
+        add_header(
+            encode_flatc(
+                json.dumps(level, ensure_ascii=False),
+                dst_client_version,
+                "prts___levels",
+            )
+        )
+    )
+
     return level_str
 
 
