@@ -186,6 +186,50 @@ def recursive_handle_clz_Torappu_EnemyDatabase_AttributesDataT(
         )
 
 
+def recursive_handle_clz_Torappu_EnemyDatabase_EnemyDataT(
+    obj,
+    clz_Torappu_EnemyDatabase_EnemyDataT,
+    prts___levels,
+):
+    if isinstance(obj, clz_Torappu_EnemyDatabase_EnemyDataT):
+        if hasattr(obj, "applyWay") and obj.applyWay is None:
+            obj.applyWay = (
+                prts___levels.clz_Torappu_Undefinable_1_Torappu_SourceApplyWay_T()
+            )
+
+        if hasattr(obj, "motion") and obj.motion is None:
+            obj.motion = prts___levels.clz_Torappu_Undefinable_1_Torappu_MotionMode_T()
+
+        if hasattr(obj, "enemyTags") and obj.enemyTags is None:
+            obj.enemyTags = prts___levels.clz_Torappu_Undefinable_1_System_String___T()
+
+        if hasattr(obj, "notCountInTotal") and obj.notCountInTotal is None:
+            obj.notCountInTotal = (
+                prts___levels.clz_Torappu_Undefinable_1_System_Boolean_T()
+            )
+
+        return
+
+    if isinstance(obj, list):
+        for i in obj:
+            recursive_handle_clz_Torappu_EnemyDatabase_EnemyDataT(
+                i,
+                clz_Torappu_EnemyDatabase_EnemyDataT,
+                prts___levels,
+            )
+        return
+
+    if not hasattr(obj, "__dict__"):
+        return
+
+    for i in obj.__dict__.values():
+        recursive_handle_clz_Torappu_EnemyDatabase_EnemyDataT(
+            i,
+            clz_Torappu_EnemyDatabase_EnemyDataT,
+            prts___levels,
+        )
+
+
 def get_codegen_migrate_func(
     dst_client_version: str,
 ):
@@ -201,6 +245,16 @@ def get_codegen_migrate_func(
         recursive_handle_clz_Torappu_EnemyDatabase_AttributesDataT(
             level_obj,
             clz_Torappu_EnemyDatabase_AttributesDataT,
+            prts___levels,
+        )
+
+        clz_Torappu_EnemyDatabase_EnemyDataT = (
+            prts___levels.clz_Torappu_EnemyDatabase_EnemyDataT
+        )
+
+        recursive_handle_clz_Torappu_EnemyDatabase_EnemyDataT(
+            level_obj,
+            clz_Torappu_EnemyDatabase_EnemyDataT,
             prts___levels,
         )
 
