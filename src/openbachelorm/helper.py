@@ -103,6 +103,8 @@ def download_asset(res_version: str, asset_rel_filepath_str: str) -> Path:
     with ZipFile(asset_dat_filepath) as zf:
         asset_filepath.write_bytes(zf.read(asset_rel_filepath.as_posix()))
 
+    asset_dat_filepath.unlink(missing_ok=True)
+
     return asset_filepath
 
 
