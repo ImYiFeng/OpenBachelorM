@@ -198,6 +198,16 @@ def get_codegen_migrate_func(
     return _codegen_migrate_func
 
 
+def migrate_legacy_json_level(
+    level_str: str,
+    level_id: str,
+    src_client_version: str,
+    dst_client_version: str,
+    res_version: str,
+) -> str:
+    return level_str
+
+
 def migrate_level(
     level_id: str,
     src_client_version: str,
@@ -206,17 +216,24 @@ def migrate_level(
     level_str: str,
 ) -> str:
     if Version(src_client_version) < Version("2.0.40"):
-        return level_str
+        is_legacy_json_level = True
+    else:
+        is_legacy_json_level = False
 
-    migrate_level_decorator_lst = get_migrate_level_decorator_lst(
-        level_id, src_client_version, dst_client_version, res_version
-    )
+    if is_legacy_json_level:
+        level_str = migrate_legacy_json_level(
+            level_str, level_id, src_client_version, dst_client_version, res_version
+        )
+    else:
+        migrate_level_decorator_lst = get_migrate_level_decorator_lst(
+            level_id, src_client_version, dst_client_version, res_version
+        )
 
-    migrate_func = nop_mod_table_func
+        migrate_func = nop_mod_table_func
 
-    migrate_func = apply_decorator_lst(migrate_func, migrate_level_decorator_lst)
+        migrate_func = apply_decorator_lst(migrate_func, migrate_level_decorator_lst)
 
-    level_str = migrate_func(level_str)
+        level_str = migrate_func(level_str)
 
     # ----------
 
