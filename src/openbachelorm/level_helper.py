@@ -43,6 +43,7 @@ from .helper import (
     remove_header,
     add_header,
     dump_table,
+    decrypt_data,
 )
 
 
@@ -358,7 +359,10 @@ def migrate_legacy_json_level(
     dst_client_version: str,
     res_version: str,
 ) -> str:
-    level = bson.decode(remove_header(script_to_bytes(level_str)))
+    try:
+        level = bson.decode(remove_header(script_to_bytes(level_str)))
+    except Exception:
+        level = json.loads(decrypt_data(script_to_bytes(level_str)).decode("utf-8"))
 
     dump_table(level, f"{level_id}_{res_version}_migrate_json_pre.json")
 
