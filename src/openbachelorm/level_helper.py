@@ -205,6 +205,36 @@ def get_codegen_migrate_func(
     return _codegen_migrate_func
 
 
+def convert_legacy_json_level_mapData(level):
+    if "mapData" not in level:
+        return
+
+    level["mapData"].pop("width", None)
+    level["mapData"].pop("height", None)
+
+    if "map" not in level["mapData"]:
+        return
+
+    old_map = level["mapData"]["map"]
+    new_map = {}
+
+    row_size = len(old_map)
+    column_size = len(old_map[0])
+    matrix_data = sum(old_map, [])
+
+    new_map = {
+        "row_size": row_size,
+        "column_size": column_size,
+        "matrix_data": matrix_data,
+    }
+
+    level["mapData"]["map"] = new_map
+
+
+def convert_legacy_json_level(level):
+    convert_legacy_json_level_mapData(level)
+
+
 def migrate_legacy_json_level(
     level_str: str,
     level_id: str,
@@ -215,6 +245,8 @@ def migrate_legacy_json_level(
     level = bson.decode(remove_header(script_to_bytes(level_str)))
 
     dump_table(level, f"{level_id}_{res_version}_migrate_json_pre.json")
+
+    convert_legacy_json_level(level)
 
     dump_table(level, f"{level_id}_{res_version}_migrate_json_post.json")
 
