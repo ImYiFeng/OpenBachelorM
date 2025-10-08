@@ -313,10 +313,39 @@ def convert_legacy_json_level_routes(level):
             level["routes"][i] = {}
 
 
+def convert_legacy_json_level_extraRoutes(level):
+    if "extraRoutes" not in level:
+        return
+
+    for i in range(len(level["extraRoutes"])):
+        if level["extraRoutes"][i] is None:
+            level["extraRoutes"][i] = {}
+
+
+def convert_legacy_json_level_branches(level):
+    if not level.get("branches", None):
+        return
+
+    old_branches = level["branches"]
+    new_branches = []
+
+    for k, v in old_branches.items():
+        new_branches.append(
+            {
+                "key": k,
+                "value": v,
+            }
+        )
+
+    level["branches"] = new_branches
+
+
 def convert_legacy_json_level(level):
     convert_legacy_json_level_mapData(level)
     convert_legacy_json_level_waves(level)
     convert_legacy_json_level_routes(level)
+    convert_legacy_json_level_extraRoutes(level)
+    convert_legacy_json_level_branches(level)
 
 
 def migrate_legacy_json_level(
