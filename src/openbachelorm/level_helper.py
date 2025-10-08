@@ -208,6 +208,9 @@ def recursive_handle_clz_Torappu_EnemyDatabase_EnemyDataT(
                 prts___levels.clz_Torappu_Undefinable_1_System_Boolean_T()
             )
 
+        if hasattr(obj, "viewRadius") and obj.viewRadius is None:
+            obj.viewRadius = prts___levels.clz_Torappu_Undefinable_1_System_Single_T()
+
         return
 
     if isinstance(obj, list):
