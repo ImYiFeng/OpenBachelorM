@@ -326,7 +326,7 @@ def convert_legacy_json_level_extraRoutes(level):
 
 
 def convert_legacy_json_level_branches(level):
-    if not level.get("branches", None):
+    if level.get("branches", None) is None:
         return
 
     old_branches = level["branches"]
