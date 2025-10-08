@@ -129,6 +129,27 @@ def copy_zonemap_node(mgr: ManifestMerger):
         "ui/zonemaps/zone_map_act24side_zone1",
     )
 
+    # ----------
+
+    mgr.copy_merger_tree_node(
+        "activity/[uc]act14mini/zonemaps/zone_map_act14mini_zone1",
+        "ui/zonemaps/zone_map_act14mini_zone1",
+    )
+
+    # ----------
+
+    mgr.copy_merger_tree_node(
+        "activity/[uc]act13mini/zonemaps/zone_map_act13mini_zone1",
+        "ui/zonemaps/zone_map_act13mini_zone1",
+    )
+
+    # ----------
+
+    mgr.copy_merger_tree_node(
+        "activity/[uc]act12mini/zonemaps/zone_map_act12mini_zone1",
+        "ui/zonemaps/zone_map_act12mini_zone1",
+    )
+
 
 def main():
     mgr = ManifestMerger(
@@ -157,8 +178,12 @@ def main():
             # too legacy, and therefore selective
             # act24side
             Resource("1.9.81", "23-03-27-11-50-38-b42880"),
+            # act14mini
+            Resource("1.9.62", "23-02-22-22-37-04-ef2150"),
             # act2bossrush
             Resource("1.9.42", "23-01-11-12-54-27-873b47"),
+            # act13mini, act12mini
+            Resource("1.8.81", "22-09-19-15-00-59-ae77d7"),
             # act1bossrush
             Resource("1.8.61", "22-08-29-13-56-31-95a9a4"),
         ],
