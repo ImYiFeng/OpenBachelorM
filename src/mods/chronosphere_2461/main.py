@@ -157,6 +157,10 @@ def main():
             # too legacy, and therefore selective
             # act24side
             Resource("1.9.81", "23-03-27-11-50-38-b42880"),
+            # act2bossrush
+            Resource("1.9.42", "23-01-11-12-54-27-873b47"),
+            # act1bossrush
+            Resource("1.8.61", "22-08-29-13-56-31-95a9a4"),
         ],
     )
 
