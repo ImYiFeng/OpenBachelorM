@@ -231,8 +231,30 @@ def convert_legacy_json_level_mapData(level):
     level["mapData"]["map"] = new_map
 
 
+def convert_legacy_json_level_waves(level):
+    if "waves" not in level:
+        return
+
+    for wave_obj in level["waves"]:
+        wave_obj.pop("name", None)
+
+        for fragment_obj in wave_obj.get("fragments", []):
+            fragment_obj.pop("name", None)
+
+
+def convert_legacy_json_level_routes(level):
+    if "routes" not in level:
+        return
+
+    for i in range(len(level["routes"])):
+        if level["routes"][i] is None:
+            level["routes"][i] = {}
+
+
 def convert_legacy_json_level(level):
     convert_legacy_json_level_mapData(level)
+    convert_legacy_json_level_waves(level)
+    convert_legacy_json_level_routes(level)
 
 
 def migrate_legacy_json_level(
@@ -253,7 +275,7 @@ def migrate_legacy_json_level(
     level_str = bytes_to_script(
         add_header(
             encode_flatc(
-                json.dumps(level, ensure_ascii=False),
+                json.dumps(level, ensure_ascii=False, indent=4),
                 dst_client_version,
                 "prts___levels",
             )
