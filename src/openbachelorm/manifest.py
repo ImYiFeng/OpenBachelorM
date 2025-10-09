@@ -139,6 +139,10 @@ def get_asset_path(asset_name: str):
     return f"{asset_name}{PSEUDO_ASSET_SUFFIX}"
 
 
+def remove_asset_suffix(asset_path: str):
+    return asset_path[: -len(PSEUDO_ASSET_SUFFIX)]
+
+
 ASSET_TREE_ROOT_NAME = "openbachelorm"
 
 
@@ -288,6 +292,7 @@ def migrate_activity_bundle(
     src_client_version: str,
     dst_client_version: str,
     res_version: str,
+    level_id_set: set[str],
 ):
     env = UnityPy.load(merger_bundle_filepath.as_posix())
 
@@ -297,8 +302,13 @@ def migrate_activity_bundle(
 
         data = obj.read()
 
+        level_id = data.m_Name
+
+        if level_id not in level_id_set:
+            continue
+
         data.m_Script = migrate_level(
-            data.m_Name,
+            level_id,
             src_client_version,
             dst_client_version,
             res_version,
@@ -449,12 +459,15 @@ class ManifestMerger:
         )
 
         bundle_name_set: set[str] = set()
+        level_id_set: set[str] = set()
 
         for node in PreOrderIter(activity_node):
             if node.is_dir:
                 continue
             if node.bundle_name in self.merger_bundle_dict:
                 bundle_name_set.add(node.bundle_name)
+
+            level_id_set.add(remove_asset_suffix(node.name))
 
         for bundle_name in bundle_name_set:
             merger_bundle = self.merger_bundle_dict[bundle_name]
@@ -472,6 +485,7 @@ class ManifestMerger:
                 src_client_version,
                 dst_client_version,
                 res_version,
+                level_id_set,
             )
 
     def build_mod_bundle_get_next_scc_idx(self):
