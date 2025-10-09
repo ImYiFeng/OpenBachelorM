@@ -118,12 +118,8 @@ def get_codegen_migrate_level_decorator_lst():
     ]
 
 
-def recursive_handle_clz_Torappu_EnemyDatabase_AttributesDataT(
-    obj,
-    clz_Torappu_EnemyDatabase_AttributesDataT,
-    prts___levels,
-):
-    if isinstance(obj, clz_Torappu_EnemyDatabase_AttributesDataT):
+def handle_obj_in_level(obj, prts___levels):
+    if isinstance(obj, prts___levels.clz_Torappu_EnemyDatabase_AttributesDataT):
         if hasattr(obj, "palsyImmune") and obj.palsyImmune is None:
             obj.palsyImmune = prts___levels.clz_Torappu_Undefinable_1_System_Boolean_T()
 
@@ -167,32 +163,7 @@ def recursive_handle_clz_Torappu_EnemyDatabase_AttributesDataT(
 
         return
 
-    if isinstance(obj, list):
-        for i in obj:
-            recursive_handle_clz_Torappu_EnemyDatabase_AttributesDataT(
-                i,
-                clz_Torappu_EnemyDatabase_AttributesDataT,
-                prts___levels,
-            )
-        return
-
-    if not hasattr(obj, "__dict__"):
-        return
-
-    for i in obj.__dict__.values():
-        recursive_handle_clz_Torappu_EnemyDatabase_AttributesDataT(
-            i,
-            clz_Torappu_EnemyDatabase_AttributesDataT,
-            prts___levels,
-        )
-
-
-def recursive_handle_clz_Torappu_EnemyDatabase_EnemyDataT(
-    obj,
-    clz_Torappu_EnemyDatabase_EnemyDataT,
-    prts___levels,
-):
-    if isinstance(obj, clz_Torappu_EnemyDatabase_EnemyDataT):
+    if isinstance(obj, prts___levels.clz_Torappu_EnemyDatabase_EnemyDataT):
         if hasattr(obj, "applyWay") and obj.applyWay is None:
             obj.applyWay = (
                 prts___levels.clz_Torappu_Undefinable_1_Torappu_SourceApplyWay_T()
@@ -214,11 +185,14 @@ def recursive_handle_clz_Torappu_EnemyDatabase_EnemyDataT(
 
         return
 
+
+def recursive_handle_obj_in_level(obj, prts___levels):
+    handle_obj_in_level(obj, prts___levels)
+
     if isinstance(obj, list):
         for i in obj:
-            recursive_handle_clz_Torappu_EnemyDatabase_EnemyDataT(
+            recursive_handle_obj_in_level(
                 i,
-                clz_Torappu_EnemyDatabase_EnemyDataT,
                 prts___levels,
             )
         return
@@ -227,9 +201,8 @@ def recursive_handle_clz_Torappu_EnemyDatabase_EnemyDataT(
         return
 
     for i in obj.__dict__.values():
-        recursive_handle_clz_Torappu_EnemyDatabase_EnemyDataT(
+        recursive_handle_obj_in_level(
             i,
-            clz_Torappu_EnemyDatabase_EnemyDataT,
             prts___levels,
         )
 
@@ -242,25 +215,7 @@ def get_codegen_migrate_func(
 
         level_obj = prts___levels.clz_Torappu_LevelDataT.InitFromPackedBuf(level_bytes)
 
-        clz_Torappu_EnemyDatabase_AttributesDataT = (
-            prts___levels.clz_Torappu_EnemyDatabase_AttributesDataT
-        )
-
-        recursive_handle_clz_Torappu_EnemyDatabase_AttributesDataT(
-            level_obj,
-            clz_Torappu_EnemyDatabase_AttributesDataT,
-            prts___levels,
-        )
-
-        clz_Torappu_EnemyDatabase_EnemyDataT = (
-            prts___levels.clz_Torappu_EnemyDatabase_EnemyDataT
-        )
-
-        recursive_handle_clz_Torappu_EnemyDatabase_EnemyDataT(
-            level_obj,
-            clz_Torappu_EnemyDatabase_EnemyDataT,
-            prts___levels,
-        )
+        recursive_handle_obj_in_level(level_obj, prts___levels)
 
         builder = flatbuffers.Builder()
         builder.Finish(level_obj.Pack(builder))
