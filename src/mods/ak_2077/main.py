@@ -41,26 +41,24 @@ def do_mod_enemy_database(enemy_database):
                 enemy_attr["massLevel"] = {"m_defined": True, "m_value": 100}
 
             if ATK_FLAG:
-                old_atk = 0
                 if enemy_attr.get("atk"):
                     if enemy_attr["atk"].get("m_defined"):
                         old_atk = enemy_attr["atk"].get("m_value", 0)
 
-                enemy_attr["atk"] = {
-                    "m_defined": True,
-                    "m_value": 10000 + 1000 * old_atk,
-                }
+                        enemy_attr["atk"] = {
+                            "m_defined": True,
+                            "m_value": 10000 + 1000 * old_atk,
+                        }
 
             if DEF_FLAG:
-                old_def = 0
                 if enemy_attr.get("def"):
                     if enemy_attr["def"].get("m_defined"):
                         old_def = enemy_attr["def"].get("m_value", 0)
 
-                enemy_attr["def"] = {
-                    "m_defined": True,
-                    "m_value": 10000 + 1000 * old_def,
-                }
+                        enemy_attr["def"] = {
+                            "m_defined": True,
+                            "m_value": 10000 + 1000 * old_def,
+                        }
 
                 for k in ["magicResistance", "epDamageResistance", "epResistance"]:
                     enemy_attr[k] = {"m_defined": True, "m_value": 1000}
