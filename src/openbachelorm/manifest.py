@@ -422,6 +422,33 @@ class ManifestMerger:
             bundle_name=src_node.bundle_name,
         )
 
+    def copy_zonemap_node(self):
+        activity_node = get_node_by_path(self.merger_tree_root, "activity", dir_ok=True)
+
+        zonemap_node_lst = []
+
+        for node in activity_node.child_dict.values():
+            if not node.is_dir:
+                continue
+
+            if "zonemaps" not in node.child_dict:
+                continue
+
+            zonemaps_node = node.child_dict["zonemaps"]
+
+            for zonemap_node in zonemaps_node.child_dict.values():
+                if zonemap_node.is_dir:
+                    continue
+
+                zonemap_node_lst.append(zonemap_node)
+
+        for zonemap_node in zonemap_node_lst:
+            src_asset_name = remove_asset_suffix(get_node_path(zonemap_node))
+
+            dst_asset_name = remove_asset_suffix(f"ui/zonemaps/{zonemap_node.name}")
+
+            self.copy_merger_tree_node(src_asset_name, dst_asset_name)
+
     def merge_special_anon_bundle(self):
         target_special_anon_bundle = get_special_anon_bundle(self.target_res_manager)
 
