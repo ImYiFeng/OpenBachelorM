@@ -315,9 +315,10 @@ def convert_legacy_json_bossrush_level(level):
             for i, action in enumerate(actions):
                 k: str = action.get("key", "")
 
-                if k.startswith("trap_091_brctrl#") and (
-                    ":" in k and not k.endswith(":empty")
-                ):
+                if (
+                    k.startswith("trap_091_brctrl#")
+                    and (":" in k and not k.endswith(":empty"))
+                ) or (k.startswith("trap_090_recodr#") and (":" in k)):
                     del_idx_lst.append(i)
 
             if not del_idx_lst:
