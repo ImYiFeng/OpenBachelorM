@@ -305,12 +305,37 @@ def convert_legacy_json_level_branches(level):
     level["branches"] = new_branches
 
 
-def convert_legacy_json_level(level):
+def convert_legacy_json_bossrush_level(level):
+    for wave in level.get("waves", []):
+        for fragment in wave.get("fragments", []):
+            actions = fragment.get("actions", [])
+
+            del_idx_lst: list[int] = []
+
+            for i, action in enumerate(actions):
+                k: str = action.get("key", "")
+
+                if k.startswith("trap_091_brctrl#") and (
+                    ":" in k and not k.endswith(":empty")
+                ):
+                    del_idx_lst.append(i)
+
+            if not del_idx_lst:
+                continue
+
+            for i in reversed(del_idx_lst):
+                actions.pop(i)
+
+
+def convert_legacy_json_level(level_id: str, level):
     convert_legacy_json_level_mapData(level)
     convert_legacy_json_level_waves(level)
     convert_legacy_json_level_routes(level)
     convert_legacy_json_level_extraRoutes(level)
     convert_legacy_json_level_branches(level)
+
+    if level_id.startswith("level_bossrush"):
+        convert_legacy_json_bossrush_level(level)
 
 
 def migrate_legacy_json_level(
@@ -327,7 +352,7 @@ def migrate_legacy_json_level(
 
     dump_table(level, f"{level_id}_{res_version}_migrate_json_pre.json")
 
-    convert_legacy_json_level(level)
+    convert_legacy_json_level(level_id, level)
 
     dump_table(level, f"{level_id}_{res_version}_migrate_json_post.json")
 
