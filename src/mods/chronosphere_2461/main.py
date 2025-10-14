@@ -44,6 +44,11 @@ def main():
 
     mgr.copy_zonemap_node()
 
+    mgr.copy_merger_tree_node(
+        "activity/[uc]act24side/zonemap/zone_map_act24side_zone1",
+        "ui/zonemaps/zone_map_act24side_zone1",
+    )
+
     mgr.prep_merger_bundle()
 
     mgr.migrate_level()
