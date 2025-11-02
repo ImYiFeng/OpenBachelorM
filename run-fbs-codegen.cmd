@@ -1,3 +1,4 @@
+flatc --python --gen-onefile --gen-object-api -o src/openbachelorm/fbs_codegen/v2_6_71/ fbs/2.6.71/prts___levels.fbs
 flatc --python --gen-onefile --gen-object-api -o src/openbachelorm/fbs_codegen/v2_6_61/ fbs/2.6.61/prts___levels.fbs
 flatc --python --gen-onefile --gen-object-api -o src/openbachelorm/fbs_codegen/v2_6_41/ fbs/2.6.41/prts___levels.fbs
 flatc --python --gen-onefile --gen-object-api -o src/openbachelorm/fbs_codegen/v2_6_21/ fbs/2.6.21/prts___levels.fbs
